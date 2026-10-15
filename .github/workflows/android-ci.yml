@@ -65,6 +65,7 @@ jobs:
           git clone --depth 1 https://github.com/suxrobGM/fsrcnn.git /tmp/fsrcnn-src
 
           pip install --index-url https://download.pytorch.org/whl/cpu torch
+          pip install onnx==1.16.1
           PYTHONPATH=/tmp/fsrcnn-src/src python tools/convert_fsrcnn_to_tflite.py \
             --checkpoint /tmp/fsrcnn-src/pretrained/fsrcnn_div2k.ckpt \
             --out /tmp/fsrcnn_div2k.onnx \
@@ -74,7 +75,6 @@ jobs:
           # guess -- onnx_graphsurgeon specifically lives on NVIDIA's own pip
           # index, which nvidia-pyindex wires up; a plain "pip install
           # onnx_graphsurgeon" can't find it without that step first.
-          pip install onnx==1.16.1
           pip install onnxsim==0.4.33
           pip install nvidia-pyindex
           pip install onnx_graphsurgeon
