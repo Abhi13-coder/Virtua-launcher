@@ -1,0 +1,118 @@
+name: Android CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Finds the real project root -- wherever settings.gradle.kts actually
+      # is -- instead of assuming repo root == project root. Fixes the exact
+      # failure class seen before: files pushed one folder deeper than
+      # expected (e.g. Virtua-launcher/virtua_launcher/... instead of
+      # Virtua-launcher/...). Every later step uses PROJECT_DIR, so it
+      # doesn't matter which layout the repo is actually in.
+      - name: Locate project root
+        run: |
+          set -e
+          MATCH=$(find . -maxdepth 4 -name settings.gradle.kts | head -n1)
+          if [ -z "$MATCH" ]; then
+            echo "::error::Could not find settings.gradle.kts anywhere under the repo (searched 4 levels deep). The Android project isn't where this workflow expects -- check what actually got pushed."
+            exit 1
+          fi
+          DIR=$(dirname "$MATCH")
+          echo "PROJECT_DIR=$DIR" >> "$GITHUB_ENV"
+          echo "Project root resolved to: $DIR"
+
+      - name: Fetch MiDaS model
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -e
+          mkdir -p app/src/main/assets/models
+          curl -sL -o app/src/main/assets/models/midas_small.tflite \
+            "https://github.com/isl-org/MiDaS/releases/download/v2_1/model_opt.tflite"
+          echo "93d871071edff1218973ce25ee27ce95ccd20450c70a55e1b89efa3f5a772cdd  app/src/main/assets/models/midas_small.tflite" | sha256sum -c -
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools'
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip (fsrcnn conversion toolchain)
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: fsrcnn-pip-${{ runner.os }}-v1
+
+      - name: Convert FSRCNN checkpoint to TFLite
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -e
+          git clone --depth 1 https://github.com/suxrobGM/fsrcnn.git /tmp/fsrcnn-src
+
+          pip install --index-url https://download.pytorch.org/whl/cpu torch
+          PYTHONPATH=/tmp/fsrcnn-src/src python tools/convert_fsrcnn_to_tflite.py \
+            --checkpoint /tmp/fsrcnn-src/pretrained/fsrcnn_div2k.ckpt \
+            --out /tmp/fsrcnn_div2k.onnx \
+            --input-size 64
+
+          # onnx2tf's own real dependency set (its official Dockerfile), not a
+          # guess -- onnx_graphsurgeon specifically lives on NVIDIA's own pip
+          # index, which nvidia-pyindex wires up; a plain "pip install
+          # onnx_graphsurgeon" can't find it without that step first.
+          pip install onnx==1.16.1
+          pip install onnxsim==0.4.33
+          pip install nvidia-pyindex
+          pip install onnx_graphsurgeon
+          pip install sng4onnx
+          pip install simple_onnx_processing_tools
+          pip install onnx2tf
+          pip install tensorflow==2.17.0
+          pip install protobuf==3.20.3
+          pip install onnxruntime==1.18.1
+          pip install ml_dtypes==0.3.2
+          pip install tf-keras~=2.16
+          pip install "flatbuffers>=23.5.26"
+
+          onnx2tf -i /tmp/fsrcnn_div2k.onnx -o /tmp/fsrcnn_saved_model
+
+          mkdir -p app/src/main/assets/models
+          cp /tmp/fsrcnn_saved_model/model_float32.tflite \
+             app/src/main/assets/models/fsrcnn_div2k.tflite
+
+      - name: Grant execute
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: chmod +x gradlew || true
+
+      - name: Setup Gradle wrapper if missing
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          if [ ! -f gradlew ]; then
+            gradle wrapper --gradle-version 8.9
+          fi
+          chmod +x gradlew
+
+      - name: Build debug APK
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: ./gradlew :app:assembleDebug --stacktrace
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: virtua-launcher-debug
+          path: ${{ env.PROJECT_DIR }}/app/build/outputs/apk/debug/*.apk
+          
