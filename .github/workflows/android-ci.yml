@@ -1,9 +1,6 @@
 name: Android CI
 
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -31,8 +28,14 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      # v3 defaulted to requesting the "tools" package, which Google removed
+      # from the SDK repo entirely -- fails with "Failed to find package
+      # 'tools'". v4 dropped it from the default; packages is pinned
+      # explicitly here too so this doesn't silently break again later.
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools'
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -81,3 +84,4 @@ jobs:
         with:
           name: virtua-launcher-debug
           path: app/build/outputs/apk/debug/*.apk
+      
