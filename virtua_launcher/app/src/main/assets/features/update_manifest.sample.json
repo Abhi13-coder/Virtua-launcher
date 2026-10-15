@@ -1,0 +1,81 @@
+{
+  "appMinVersion": "1.0.0",
+  "features": [
+    {
+      "id": "vpr",
+      "name": "VPR Upscale",
+      "version": "1.0.1",
+      "set": "1",
+      "soFile": "libvpr.so",
+      "sha256": "REPLACE_WITH_REAL_SHA256",
+      "url": "https://example.com/virtua/arm64-v8a/libvpr.so",
+      "abis": {
+        "arm64-v8a": "https://example.com/virtua/arm64-v8a/libvpr.so",
+        "armeabi-v7a": "https://example.com/virtua/armeabi-v7a/libvpr.so",
+        "x86_64": "https://example.com/virtua/x86_64/libvpr.so",
+        "x86": "https://example.com/virtua/x86/libvpr.so"
+      },
+      "replaces": [],
+      "description": "Virtual sub-pixel lattice + exact-slot accumulation"
+    },
+    {
+      "id": "compactflow",
+      "name": "CompactFlow Motion",
+      "version": "1.0.0",
+      "set": "1",
+      "soFile": "libcompactflow.so",
+      "sha256": "REPLACE_WITH_REAL_SHA256",
+      "url": "https://example.com/virtua/arm64-v8a/libcompactflow.so",
+      "abis": {
+        "arm64-v8a": "https://example.com/virtua/arm64-v8a/libcompactflow.so",
+        "armeabi-v7a": "https://example.com/virtua/armeabi-v7a/libcompactflow.so"
+      },
+      "replaces": [],
+      "description": "CompactFlowNet-class motion + confidence"
+    },
+    {
+      "id": "fsrcnn",
+      "name": "FSRCNN Spatial",
+      "version": "1.0.0",
+      "set": "1",
+      "soFile": "libfsrcnn.so",
+      "sha256": "REPLACE_WITH_REAL_SHA256",
+      "url": "https://example.com/virtua/arm64-v8a/libfsrcnn.so",
+      "replaces": [],
+      "description": "Tiny SR prior"
+    },
+    {
+      "id": "hdrplus",
+      "name": "Virtual HDR+",
+      "version": "1.0.0",
+      "set": "1",
+      "soFile": "libhdrplus.so",
+      "sha256": "REPLACE_WITH_REAL_SHA256",
+      "url": "https://example.com/virtua/arm64-v8a/libhdrplus.so",
+      "replaces": [],
+      "description": "Local tone + bloom"
+    },
+    {
+      "id": "depth",
+      "name": "Neural Depth",
+      "version": "1.0.0",
+      "set": "1b",
+      "soFile": "libdepth.so",
+      "sha256": "REPLACE_WITH_REAL_SHA256",
+      "url": "https://example.com/virtua/arm64-v8a/libdepth.so",
+      "replaces": [],
+      "description": "Monocular depth (MiDaS/ZipDepth-class)"
+    },
+    {
+      "id": "rays",
+      "name": "Virtual Ray-Cast",
+      "version": "1.0.0",
+      "set": "1b",
+      "soFile": "librays.so",
+      "sha256": "REPLACE_WITH_REAL_SHA256",
+      "url": "https://example.com/virtua/arm64-v8a/librays.so",
+      "replaces": [],
+      "description": "God rays + light SSR"
+    }
+  ]
+}

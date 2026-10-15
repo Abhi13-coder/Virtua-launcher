@@ -1,0 +1,2 @@
+-keep class com.virtua.launcher.nativeapi.** { *; }
+-keep class com.virtua.launcher.features.** { *; }

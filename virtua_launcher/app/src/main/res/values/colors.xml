@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="virtua_bg">#0B0F14</color>
+    <color name="virtua_surface">#151C24</color>
+    <color name="virtua_card">#1C2633</color>
+    <color name="virtua_primary">#3DDC97</color>
+    <color name="virtua_primary_dim">#2A9B6A</color>
+    <color name="virtua_accent">#5B8CFF</color>
+    <color name="virtua_warn">#FFB020</color>
+    <color name="virtua_danger">#FF5C5C</color>
+    <color name="virtua_text">#E8EEF5</color>
+    <color name="virtua_text_muted">#8B9BB0</color>
+    <color name="virtua_stroke">#2A3544</color>
+    <color name="ic_launcher_background">#0B0F14</color>
+</resources>

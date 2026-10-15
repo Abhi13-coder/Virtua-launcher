@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.VirtuaLauncher" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/virtua_primary</item>
+        <item name="colorPrimaryVariant">@color/virtua_primary_dim</item>
+        <item name="colorSecondary">@color/virtua_accent</item>
+        <item name="android:statusBarColor">@color/virtua_bg</item>
+        <item name="android:navigationBarColor">@color/virtua_bg</item>
+        <item name="android:windowBackground">@color/virtua_bg</item>
+        <item name="android:textColorPrimary">@color/virtua_text</item>
+    </style>
+    <style name="Theme.VirtuaLauncher.Hud" parent="Theme.VirtuaLauncher">
+        <item name="android:windowFullscreen">false</item>
+    </style>
+</resources>

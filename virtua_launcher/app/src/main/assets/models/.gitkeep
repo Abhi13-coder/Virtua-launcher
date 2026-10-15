@@ -1,0 +1,5 @@
+Both midas_small.tflite and fsrcnn_div2k.tflite are fetched/converted by CI
+(android-ci.yml), not committed here -- see README.md. The 66MB MiDaS model
+blew past GitHub's web-upload limit (25MB) and whatever was choking Spck's
+push, so CI downloads it straight from the official source instead of
+anyone having to push it by hand.

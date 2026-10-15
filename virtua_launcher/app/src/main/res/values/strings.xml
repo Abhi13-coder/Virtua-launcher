@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Virtua Launcher</string>
+    <string name="tagline">Virtual graphics between game &amp; screen</string>
+    <string name="tab_home">Home</string>
+    <string name="tab_features">Features</string>
+    <string name="tab_updates">Updates</string>
+    <string name="tab_settings">Settings</string>
+    <string name="feature_vpr">VPR Upscale</string>
+    <string name="feature_flow">CompactFlow Motion</string>
+    <string name="feature_fsrcnn">FSRCNN Spatial</string>
+    <string name="feature_hdr">Virtual HDR+</string>
+    <string name="feature_rays">Virtual Ray-Cast</string>
+    <string name="feature_depth">Neural Depth</string>
+    <string name="status_ready">Ready</string>
+    <string name="status_busy">Processing</string>
+    <string name="status_fallback">Fallback path</string>
+    <string name="check_updates">Check stream updates</string>
+    <string name="backend_auto">Adaptive: NPU → GPU → CPU</string>
+    <string name="set1_title">Feature Set 1 / 1b</string>
+    <string name="hud_perf">Perf lock</string>
+    <string name="hud_cool">Cool-down</string>
+    <string name="hud_profile">Profile</string>
+</resources>
