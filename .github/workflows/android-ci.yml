@@ -75,8 +75,7 @@ jobs:
           # guess -- onnx_graphsurgeon specifically lives on NVIDIA's own pip
           # index, which nvidia-pyindex wires up; a plain "pip install
           # onnx_graphsurgeon" can't find it without that step first.
-          pip install onnxsim==0.4.33
-          pip install nvidia-pyindex
+          pip install onnxsim==0.4.3
           pip install onnx_graphsurgeon
           pip install sng4onnx
           pip install simple_onnx_processing_tools
