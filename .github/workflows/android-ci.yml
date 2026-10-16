@@ -9,6 +9,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Apply patch zips
+        run: |
+          set -e
+          command -v unzip >/dev/null || (sudo apt-get update -y && sudo apt-get install -y unzip)
+          if [ -d patches ]; then
+            for z in $(find patches -maxdepth 1 -name "*.zip" | sort); do
+              echo "Applying patch: $z"
+              unzip -o "$z" -d .
+            done
+          else
+            echo "No patches/ directory -- nothing to apply"
+          fi
+
       - name: Locate project root
         run: |
           set -e
